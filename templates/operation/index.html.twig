@@ -9,9 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Description</th>
                 <th>Status</th>
                 <th>Type</th>
+                <th>Description</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -19,9 +19,9 @@
         {% for operation in operations %}
             <tr>
                 <td>{{ operation.id }}</td>
-                <td>{{ operation.description }}</td>
                 <td>{{ operation.status }}</td>
                 <td>{{ operation.type }}</td>
+                <td>{{ operation.description }}</td>
                 <td>
                     <a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
                     <a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
