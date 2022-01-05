@@ -4,6 +4,10 @@
 {% endblock %}
 
 {% block body %}
+	{% if is_granted('ROLE_EXPERT') %}
+		<a href="../employee">Ajout d'un employé</a>
+	{% endif %}
+	<a href="../client">Ajout d'un client</a>
 	<h1>Operation index</h1>
 
 	<table class="table">
