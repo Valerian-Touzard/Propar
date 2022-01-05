@@ -1,39 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Operation index{% endblock %}
+{% block title %}Operation index
+{% endblock %}
 
 {% block body %}
-    <h1>Operation index</h1>
+	<h1>Operation index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Status</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for operation in operations %}
-            <tr>
-                <td>{{ operation.id }}</td>
-                <td>{{ operation.status }}</td>
-                <td>{{ operation.type }}</td>
-                <td>{{ operation.description }}</td>
-                <td>
-                    <a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-                    <a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Employee</th>
+				<th>Client</th>
+				<th>Status</th>
+				<th>Type</th>
+				<th>Description</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for operation in operations %}
+				<tr>
+					<td>{{ operation.id }}</td>
+					<td>{{ operation.userId.firstName }}</td>
+					<td>{{ operation.clientId.firstName }}</td>
+					<td>{{ operation.status }}</td>
+					<td>{{ operation.type }}</td>
+					<td>{{ operation.description }}</td>
+					<td>
+						<a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
+						<a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('operation_new') }}">Create new</a>
+	<a href="{{ path('operation_new') }}">Create new</a>
 {% endblock %}
