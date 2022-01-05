@@ -3,6 +3,10 @@
 {% block title %}Employee index{% endblock %}
 
 {% block body %}
+    {% if is_granted('ROLE_EXPERT') %}
+		<a href="../operation">Ajout d'une opération</a>
+	{% endif %}
+	    <a href="../client">Ajout d'un client</a>
     <h1>Employee index</h1>
 
     <table class="table">
