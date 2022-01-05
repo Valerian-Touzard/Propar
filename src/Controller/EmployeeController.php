@@ -83,7 +83,7 @@ class EmployeeController extends AbstractController
      */
     public function delete(Request $request, Employee $employee, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$employee->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->request->get('_token'))) {
             $entityManager->remove($employee);
             $entityManager->flush();
         }

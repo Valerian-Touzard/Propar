@@ -26,8 +26,9 @@ class RegistrationFormType extends AbstractType
                 ChoiceType::class,
                 array(
                     'choices' => array(
-                        'Admin' => 'Admin',
-                        'User' => 'User',
+                        'Expert' => 'ROLE_EXPERT',
+                        'Senior' => 'ROLE_SENIOR',
+                        'Apprentice' => 'ROLE_APPRENTICE',
                     )
                 )
             )
