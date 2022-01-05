@@ -40,10 +40,10 @@ class EmployeeController extends AbstractController
 
             $employee->setPassword(
                 $userPasswordHasher->hashPassword(
-                        $employee,
-                        $form->get('password')->getData()
-                    )
-                );
+                    $employee,
+                    $form->get('password')->getData()
+                )
+            );
 
             $entityManager->persist($employee);
             $entityManager->flush();
@@ -70,12 +70,21 @@ class EmployeeController extends AbstractController
     /**
      * @Route("/{id}/edit", name="employee_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Employee $employee, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Employee $employee, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('password')->getData()) {
+                $employee->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $employee,
+                        $form->get('password')->getData()
+                    )
+                );
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('employee_index', [], Response::HTTP_SEE_OTHER);

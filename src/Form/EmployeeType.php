@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Employee;
+use Doctrine\Common\Collections\Expr\Value;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +30,9 @@ class EmployeeType extends AbstractType
                     )
                 )
             )
-            ->add('password', PasswordType::class)
+            ->add('password', PasswordType::class, [
+                'data' => ""
+            ])
             ->add('lastName')
             ->add('firstName');
 
