@@ -3,6 +3,8 @@
 {% block title %}Client{% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <h1>Client</h1>
 
     <table class="table">
@@ -21,7 +23,7 @@
             </tr>
             <tr>
                 <th>Address</th>
-                <td>{{ client.address }}</td>
+                <td id="address">{{ client.address }}</td>
             </tr>
         </tbody>
     </table>
@@ -31,4 +33,36 @@
     <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
 
     {{ include('client/_delete_form.html.twig') }}
+
+
+
+
+<div id="map" style="width: 500px; height: 200px">
+</div>
+
+
+<script>   
+
+
+var address = document.getElementById("address").innerHTML;
+
+let fetchRes = fetch("https://api-adresse.data.gouv.fr/search/?q="+address);
+
+fetchRes.then(res => res.json())
+        .then(d => {
+            console.log(d);
+            var map = L.map('map').setView([0,0], 16);
+
+            L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                subdomains: ['a','b','c']
+            }).addTo( map );
+
+
+            new L.GeoJSON(d).addTo(map).bindPopup(document.getElementById("address").innerHTML).openPopup();;
+        })
+
+</script>
+
+
 {% endblock %}
