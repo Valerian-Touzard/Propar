@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class OperationType extends AbstractType
 {
@@ -17,7 +18,18 @@ class OperationType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('status')
+            ->add(
+                'status',
+                ChoiceType::class,
+                array(
+                    'choices' => array(
+                        'A Faire' => 'a faire',
+                        'En Cour' => 'en cour',
+                        'Terminé' => 'terminé',
+                        'Annulé' => 'annulé'
+                    )
+                )
+            )
             ->add('type')
             ->add('userId', EntityType::class, [
                 'class' => Employee::class,
