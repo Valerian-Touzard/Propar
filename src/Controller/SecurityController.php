@@ -16,7 +16,7 @@ class SecurityController extends AbstractController
      */
     public function redirect_login()
     {
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('operation_index');
     }
 
     /**

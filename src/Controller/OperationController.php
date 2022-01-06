@@ -47,10 +47,6 @@ class OperationController extends AbstractController
             //Permet de récuperer les info de la classe en cour et son "image" dans la BDD
             $entityManager = $qb->getEntityManager();
 
-
-
-            // $query = $entityManager->createQuery('SELECT COUNT(*) FROM Operation WHERE user_id_id = '.$operation->getUserId()->getId());
-
             //On compte le nombre d'opération affecter a l'employé utilisé
             $nbOperation = $qb->select('operation')
             ->from('App\Entity\Operation', 'operation')
@@ -65,25 +61,20 @@ class OperationController extends AbstractController
                 case 'ROLE_EXPERT':
                     if (count($nbOperation) < 5) {
                         $estReussi = true;
-                        
-                        // return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
                     }
                     break;
                 case 'ROLE_SENIOR':
                     if (count($nbOperation) < 3) {
                         $estReussi = true;
-                        // return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
                     }
                     break;
                 case 'ROLE_APPRENTICE':
                     if (count($nbOperation) < 1) {
                         $estReussi = true;
-                        // return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
                     }
                     break;
             }
 
-            
             if ($estReussi) {
                 $entityManager->persist($operation);
                 $entityManager->flush();
