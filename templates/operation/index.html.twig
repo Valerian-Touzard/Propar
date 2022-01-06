@@ -15,7 +15,7 @@
 	{% if not is_granted('ROLE_USER') %}
 		<a href="../login">Se connecter</a>
 	{% endif %}
-	
+
 	<h1>Operation index</h1>
 
 	<table class="table">
@@ -28,27 +28,27 @@
 				<th>Type</th>
 				<th>Description</th>
 				{% if is_granted('ROLE_USER') %}
-				<th>actions</th>
+					<th>actions</th>
 				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
 			{% for operation in operations|sort((a, b) => a.clientId.firstName <=> b.clientId.firstName)%}
-			{% if operation.status != "terminé" %}
-				<tr>
-					<td>{{ operation.id }}</td>
-					<td>{{ operation.userId.firstName }}</td>
-					<td>{{ operation.clientId.firstName }}</td>
-					<td>{{ operation.status }}</td>
-					<td>{{ operation.type }}</td>
-					<td>{{ operation.description }}</td>
-					{% if is_granted('ROLE_USER') %}
-					<td>
-						<a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-						<a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
-					</td>
-					{% endif %}
-				</tr>
+				{% if operation.status != "done" %}
+					<tr>
+						<td>{{ operation.id }}</td>
+						<td>{{ operation.userId.firstName }}</td>
+						<td>{{ operation.clientId.firstName }}</td>
+						<td>{{ operation.status }}</td>
+						<td>{{ operation.type }}</td>
+						<td>{{ operation.description }}</td>
+						{% if is_granted('ROLE_USER') %}
+							<td>
+								<a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
+								<a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+							</td>
+						{% endif %}
+					</tr>
 				{% endif %}
 			{% else %}
 				<tr>
@@ -68,27 +68,27 @@
 				<th>Type</th>
 				<th>Description</th>
 				{% if is_granted('ROLE_USER') %}
-				<th>actions</th>
+					<th>actions</th>
 				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
 			{% for operation in operations %}
-			{% if operation.status == "terminé" %}
-				<tr>
-					<td>{{ operation.id }}</td>
-					<td>{{ operation.userId.firstName }}</td>
-					<td>{{ operation.clientId.firstName }}</td>
-					<td>{{ operation.status }}</td>
-					<td>{{ operation.type }}</td>
-					<td>{{ operation.description }}</td>
-					{% if is_granted('ROLE_USER') %}
-					<td>
-						<a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-						<a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
-					</td>
-					{% endif %}
-				</tr>
+				{% if operation.status == "done" %}
+					<tr>
+						<td>{{ operation.id }}</td>
+						<td>{{ operation.userId.firstName }}</td>
+						<td>{{ operation.clientId.firstName }}</td>
+						<td>{{ operation.status }}</td>
+						<td>{{ operation.type }}</td>
+						<td>{{ operation.description }}</td>
+						{% if is_granted('ROLE_USER') %}
+							<td>
+								<a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
+								<a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+							</td>
+						{% endif %}
+					</tr>
 				{% endif %}
 			{% else %}
 				<tr>
@@ -97,9 +97,11 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
 	{% if is_granted('ROLE_USER') %}
 		<a href="{{ path('operation_new') }}">Create new</a>
 	{% endif %}
-	
+	{% if is_granted("ROLE_EXPERT") %}
+		<p>Revenue:{{ revenue}}€</p>
+
+	{% endif %}
 {% endblock %}

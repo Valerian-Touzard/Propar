@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Length;
 
+use function PHPSTORM_META\type;
+
 /**
  * @Route("/operation")
  */
@@ -24,8 +26,26 @@ class OperationController extends AbstractController
      */
     public function index(OperationRepository $operationRepository): Response
     {
+        $tmp = $operationRepository->findAll();
+        $revenue = 0;
+        foreach ($tmp as $operation) {
+            switch ($operation->getType()) {
+                case ("big"):
+                    $revenue += 10000;
+                    break;
+                case ("medium"):
+                    $revenue += 2500;
+                    break;
+                case ("small"):
+                    $revenue += 1000;
+                    break;
+                default:
+                    break;
+            }
+        }
         return $this->render('operation/index.html.twig', [
             'operations' => $operationRepository->findAll(),
+            'revenue' => $revenue,
         ]);
     }
 
@@ -49,9 +69,9 @@ class OperationController extends AbstractController
 
             //On compte le nombre d'opération affecter a l'employé utilisé
             $nbOperation = $qb->select('operation')
-            ->from('App\Entity\Operation', 'operation')
-            ->where('operation.userId = ?1')
-            ->setParameter(1, $operation->getUserId()->getId());
+                ->from('App\Entity\Operation', 'operation')
+                ->where('operation.userId = ?1')
+                ->setParameter(1, $operation->getUserId()->getId());
 
             $nbOperation = $qb->getQuery()->getResult();
 
@@ -79,11 +99,11 @@ class OperationController extends AbstractController
                 $entityManager->persist($operation);
                 $entityManager->flush();
                 return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
-            }else {
+            } else {
                 return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
             }
         }
-        
+
         return $this->renderForm('operation/new.html.twig', [
             'operation' => $operation,
             'form' => $form,
@@ -125,7 +145,7 @@ class OperationController extends AbstractController
      */
     public function delete(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$operation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $operation->getId(), $request->request->get('_token'))) {
             $entityManager->remove($operation);
             $entityManager->flush();
         }

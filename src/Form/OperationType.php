@@ -23,14 +23,24 @@ class OperationType extends AbstractType
                 ChoiceType::class,
                 array(
                     'choices' => array(
-                        'A Faire' => 'a faire',
-                        'En Cour' => 'en cour',
-                        'Terminé' => 'terminé',
-                        'Annulé' => 'annulé'
+                        'Pending' => 'pending',
+                        'In Progress' => 'in_progress',
+                        'Done' => 'done',
+                        'Cancelled' => 'cancelled'
                     )
                 )
             )
-            ->add('type')
+            ->add(
+                'type',
+                ChoiceType::class,
+                array(
+                    'choices' => array(
+                        'Small' => 'small',
+                        'Medium' => 'medium',
+                        'Big' => 'big'
+                    )
+                )
+            )
             ->add('userId', EntityType::class, [
                 'class' => Employee::class,
                 'query_builder' => function (EntityRepository $er) {
