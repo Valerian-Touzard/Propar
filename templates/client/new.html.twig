@@ -3,9 +3,76 @@
 {% block title %}New Client{% endblock %}
 
 {% block body %}
+
     <h1>Create new Client</h1>
 
     {{ include('client/_form.html.twig') }}
 
     <a href="{{ path('client_index') }}">back to list</a>
+
+    <datalist id="addressList">
+    </datalist>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <script>
+
+    var fetchTrigger = 0;
+
+    // Checks keyboard inputs
+    $("#client_address").keyup(function(event) {
+    
+    // Stops default propagation
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Stops previous request
+    clearTimeout(fetchTrigger);
+
+    let addressInput = $("#client_address").val();
+
+    // Empties the drop down list if input is empty, and stops the function
+    if (addressInput.length === 0) {
+
+        $('#addressList').empty();
+        return false;
+
+    }
+
+    // Wait inactivity before sending the request
+    fetchTrigger = setTimeout(function() {
+        
+        // https://api-adresse.data.gouv.fr/search/?q=addressInput&limit=10&autocomplete=1
+        $.get('https://api-adresse.data.gouv.fr/search/', {
+
+        q: addressInput,
+        limit: 10,
+        autocomplete: 1
+
+        }, function(data) {
+
+        let list = "";
+
+        // Adds each address as an option
+        $.each(data.features, function(i, obj) {
+
+            list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " + obj.properties.city + '</option>';
+
+        });
+
+        $('#addressList').html(list);
+
+        }, 'json');
+
+    }, 100);
+
+    });
+
+    </script>
+
 {% endblock %}
+
