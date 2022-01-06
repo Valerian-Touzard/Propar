@@ -6,10 +6,13 @@ use App\Entity\Operation;
 use App\Form\OperationType;
 use App\Repository\OperationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\Rule\Parameters;
+use SebastianBergmann\Environment\Console;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @Route("/operation")
@@ -31,17 +34,65 @@ class OperationController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $estReussi = false;
         $operation = new Operation();
         $form = $this->createForm(OperationType::class, $operation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($operation);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+            //Création d'une instance QueryBuilder
+            $qb = $entityManager->createQueryBuilder();
+
+            //Permet de récuperer les info de la classe en cour et son "image" dans la BDD
+            $entityManager = $qb->getEntityManager();
+
+
+
+            // $query = $entityManager->createQuery('SELECT COUNT(*) FROM Operation WHERE user_id_id = '.$operation->getUserId()->getId());
+
+            //On compte le nombre d'opération affecter a l'employé utilisé
+            $nbOperation = $qb->select('operation')
+            ->from('App\Entity\Operation', 'operation')
+            ->where('operation.userId = ?1')
+            ->setParameter(1, $operation->getUserId()->getId());
+
+            $nbOperation = $qb->getQuery()->getResult();
+
+            // dd(count($nbOperation));
+            // dd($operation->getUserId()->getRoles()[0]);
+            switch ($operation->getUserId()->getRoles()[0]) {
+                case 'ROLE_EXPERT':
+                    if (count($nbOperation) < 5) {
+                        $estReussi = true;
+                        
+                        // return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+                    }
+                    break;
+                case 'ROLE_SENIOR':
+                    if (count($nbOperation) < 3) {
+                        $estReussi = true;
+                        // return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+                    }
+                    break;
+                case 'ROLE_APPRENTICE':
+                    if (count($nbOperation) < 1) {
+                        $estReussi = true;
+                        // return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+                    }
+                    break;
+            }
+
+            
+            if ($estReussi) {
+                $entityManager->persist($operation);
+                $entityManager->flush();
+                return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+            }else {
+                return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
-
+        
         return $this->renderForm('operation/new.html.twig', [
             'operation' => $operation,
             'form' => $form,
