@@ -33,7 +33,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for operation in operations|sort((b, a) => a.userId.firstName <=> b.userId.firstName)%}
+			{% for operation in operations|sort((a, b) => a.clientId.firstName <=> b.clientId.firstName)%}
 			{% if operation.status != "terminé" %}
 				<tr>
 					<td>{{ operation.id }}</td>
