@@ -1,43 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client index{% endblock %}
+{% block title %}Client index
+{% endblock %}
 
 {% block body %}
-    {% if is_granted('ROLE_EXPERT') %}
-		<a href="../employee">Ajout d'un employé</a>
-	{% endif %}
-	<a href="../operation">Ajout d'une opération</a>
-    <h1>Client index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Address</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
-            <tr>
-                <td>{{ client.id }}</td>
-                <td>{{ client.firstName }}</td>
-                <td>{{ client.lastName }}</td>
-                <td>{{ client.address }}</td>
-                <td>
-                    <a href="{{ path('client_show', {'id': client.id}) }}">show</a>
-                    <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<div class="menu">
 
-    <a href="{{ path('client_new') }}">Create new</a>
+		{% if is_granted('ROLE_USER') %}
+			<a href="../employee">Employés</a>
+		{% endif %}
+		{% if is_granted('ROLE_EXPERT') %}
+			<a href="../operation">Opération</a>
+		{% endif %}
+	</div>
+
+	<h1>Client index</h1>
+
+	<table class="container">
+		<thead>
+			<tr>
+				<th>Prénom</th>
+				<th>Nom</th>
+				<th>Adresse</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for client in clients %}
+				<tr>
+					<td>{{ client.firstName }}</td>
+					<td>{{ client.lastName }}</td>
+					<td>{{ client.address }}</td>
+					<td>
+						<a class="linkShow" href="{{ path('client_show', {'id': client.id}) }}">Afficher</a>
+						<a class="linkEdit" href="{{ path('client_edit', {'id': client.id}) }}">Modifier</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">Aucune Donnée Trouvée</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('client_new') }}">Nouveau Client</a>
 {% endblock %}

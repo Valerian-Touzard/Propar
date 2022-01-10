@@ -45,107 +45,101 @@
 	<table class="container" class="table">
 		<thead>
 			<tr>
-				<th>Employee</th>
+				<th>Employé</th>
 				<th>Client</th>
-				<th>Status</th>
+				<th>Statut</th>
 				<th>Type</th>
 				<th>Description</th>
 				{% if is_granted('ROLE_USER') %}
-					<th>actions</th>
+					<th>Actions</th>
 				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
-			{% for operation in operations|sort((a, b) => a.clientId.firstName <=> b.clientId.firstName)%}
-				{% if operation.status != "done" and operation.status != "cancelled" %}
-					<tr>
-						<td>{{ operation.userId.firstName }}</td>
-						<td>{{ operation.clientId.firstName }}</td>
+			{% for operation in operations|sort((a, b) => a.clientId.firstName <=> b.clientId.firstName) |filter(operation => operation.status != "done" and operation.status != "cancelled")  %}
+				<tr>
+					<td>{{ operation.userId.firstName }}</td>
+					<td>{{ operation.clientId.firstName }}</td>
 
-						{% if operation.status == 'in_progress' %}
-							<td>En cours</td>
-						{% elseif operation.status == 'pending' %}
-							<td>En attente</td>
-						{% elseif operation.status == 'cancelled' %}
-							<td>Annulée</td>
-						{% endif %}
+					{% if operation.status == 'in_progress' %}
+						<td>En Cours</td>
+					{% elseif operation.status == 'pending' %}
+						<td>En Attente</td>
+					{% endif %}
 
-						{% if operation.type == 'big' %}
-							<td>Grosse</td>
-						{% elseif operation.type == 'medium' %}
-							<td>Moyenne</td>
-						{% elseif operation.type == 'small' %}
-							<td>Petite</td>
-						{% endif %}
+					{% if operation.type == 'big' %}
+						<td>Grosse</td>
+					{% elseif operation.type == 'medium' %}
+						<td>Moyenne</td>
+					{% elseif operation.type == 'small' %}
+						<td>Petite</td>
+					{% endif %}
 
-						<td>{{ operation.description }}</td>
-						{% if is_granted('ROLE_USER') %}
-							<td class="actions">
-								<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-								<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
-							</td>
-						{% endif %}
-					</tr>
-				{% endif %}
+					<td>{{ operation.description }}</td>
+					{% if is_granted('ROLE_USER') %}
+						<td class="actions">
+							<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">Afficher</a>
+							<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">Modifier</a>
+						</td>
+					{% endif %}
+				</tr>
 			{% else %}
 				<tr>
-					<td colspan="5">no records found</td>
+					<td colspan="6">Aucune Donnée Trouver</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 
-	<h2>Fait</h2>
+	<h2>Terminée / Annulée</h2>
 
 	<table class="container" class="table">
 		<thead>
 			<tr>
-				<th>Employee</th>
+				<th>Employé</th>
 				<th>Client</th>
-				<th>Status</th>
+				<th>Statut</th>
 				<th>Type</th>
 				<th>Description</th>
 				{% if is_granted('ROLE_USER') %}
-					<th>actions</th>
+					<th>Actions</th>
 				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
-			{% for operation in operations %}
-				{% if operation.status == "done" or operation.status == "cancelled" %}
-					<tr>
-						<td>{{ operation.userId.firstName }}</td>
-						<td>{{ operation.clientId.firstName }}</td>
+			{% for operation in operations|sort((a, b) => a.clientId.firstName <=> b.clientId.firstName)|filter(operation => operation.status == "done" or operation.status == "cancelled") %}
+				<tr>
+					<td>{{ operation.userId.firstName }}</td>
+					<td>{{ operation.clientId.firstName }}</td>
 
 
-						{% if operation.status == 'done' %}
-							<td>Terminé</td>
-						{% elseif operation.status == 'cancelled' %}
-							<td>Annulée</td>
-						{% endif %}
+					{% if operation.status == 'done' %}
+						<td>Terminé</td>
+					{% elseif operation.status == 'cancelled' %}
+						<td>Annulée</td>
+					{% endif %}
 
-						{% if operation.type == 'big' %}
-							<td>Grosse</td>
-						{% elseif operation.type == 'medium' %}
-							<td>Moyenne</td>
-						{% elseif operation.type == 'small' %}
-							<td>Petite</td>
-						{% endif %}
+					{% if operation.type == 'big' %}
+						<td>Grosse</td>
+					{% elseif operation.type == 'medium' %}
+						<td>Moyenne</td>
+					{% elseif operation.type == 'small' %}
+						<td>Petite</td>
+					{% endif %}
 
-						<td>{{ operation.description }}</td>
-						{% if is_granted('ROLE_USER') %}
-							<td class="actions">
+					<td>{{ operation.description }}</td>
+					{% if is_granted('ROLE_USER') %}
+						<td class="actions">
 
-								<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-								<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+							<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">Afficher</a>
+							<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">Modifier</a>
 
-							</td>
-						{% endif %}
-					</tr>
-				{% endif %}
+						</td>
+					{% endif %}
+				</tr>
 			{% else %}
 				<tr>
-					<td colspan="5">no records found</td>
+					<td colspan="6">Aucune Donnée Trouvée</td>
 				</tr>
 			{% endfor %}
 		</tbody>

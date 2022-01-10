@@ -102,7 +102,7 @@ class OperationController extends AbstractController
                 $entityManager->flush();
                 return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
             } else {
-                return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('operation_new', [], Response::HTTP_SEE_OTHER);
             }
         }
 

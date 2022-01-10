@@ -1,47 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Employee index{% endblock %}
+{% block title %}Employee index
+{% endblock %}
 
 {% block body %}
-    {% if is_granted('ROLE_EXPERT') %}
-		<a href="../operation">Ajout d'une opération</a>
-	{% endif %}
-	    <a href="../client">Ajout d'un client</a>
-    <h1>Employee index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>LastName</th>
-                <th>FirstName</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for employee in employees %}
-            <tr>
-                <td>{{ employee.id }}</td>
-                <td>{{ employee.username }}</td>
-                <td>{{ employee.roles ? employee.roles|json_encode : '' }}</td>
-                <td>{{ employee.password }}</td>
-                <td>{{ employee.lastName }}</td>
-                <td>{{ employee.firstName }}</td>
-                <td>
-                    <a href="{{ path('employee_show', {'id': employee.id}) }}">show</a>
-                    <a href="{{ path('employee_edit', {'id': employee.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<div class="menu">
 
-    <a href="{{ path('employee_new') }}">Create new</a>
+		{% if is_granted('ROLE_USER') %}
+			<a href="../client">Clients</a>
+		{% endif %}
+		{% if is_granted('ROLE_EXPERT') %}
+			<a href="../operation">Opération</a>
+		{% endif %}
+	</div>
+	<h1>Employee index</h1>
+
+	<table class="container">
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Roles</th>
+				<th>LastName</th>
+				<th>FirstName</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for employee in employees %}
+				<tr>
+					<td>{{ employee.username }}</td>
+					{% if employee.roles[0] == "ROLE_EXPERT" %}
+						<td>Expert</td>
+					{% elseif employee.roles[0] == "ROLE_SENIOR" %}
+						<td>Senior</td>
+					{% elseif employee.roles[0] == "ROLE_APPRENTICE" %}
+						<td>Apprenti</td>
+					{% elseif employee.roles[0] == "ROLE_USER" %}
+						<td></td>
+					{% endif %}
+					<td>{{ employee.lastName }}</td>
+					<td>{{ employee.firstName }}</td>
+					<td>
+						<a class="linkShow" href="{{ path('employee_show', {'id': employee.id}) }}">show</a>
+						<a class="linkEdit" href="{{ path('employee_edit', {'id': employee.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('employee_new') }}">Create new</a>
 {% endblock %}
