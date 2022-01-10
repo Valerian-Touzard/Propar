@@ -196,3 +196,9 @@ a:hover{
   color:#FB667A;
 
 }
+
+td{
+
+  overflow: hidden;
+  max-width: 10ch;
+}
