@@ -16,12 +16,15 @@
 		<a href="../login">Se connecter</a>
 	{% endif %}
 
+	
+	<link href='../css/main.css' type="text/css" rel="stylesheet" />
+
 	<h1>Operation index</h1>
 
-	<table class="table">
+	<table class="container" class="table">
 		<thead>
 			<tr>
-				<th>Id</th>
+				<th class="tableId">Id</th>
 				<th>Employee</th>
 				<th>Client</th>
 				<th>Status</th>
@@ -36,7 +39,7 @@
 			{% for operation in operations|sort((a, b) => a.clientId.firstName <=> b.clientId.firstName)%}
 				{% if operation.status != "done" %}
 					<tr>
-						<td>{{ operation.id }}</td>
+						<td class="tableId">{{ operation.id }}</td>
 						<td>{{ operation.userId.firstName }}</td>
 						<td>{{ operation.clientId.firstName }}</td>
 						<td>{{ operation.status }}</td>
@@ -44,8 +47,8 @@
 						<td>{{ operation.description }}</td>
 						{% if is_granted('ROLE_USER') %}
 							<td>
-								<a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-								<a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+								<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
+								<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
 							</td>
 						{% endif %}
 					</tr>
@@ -58,7 +61,7 @@
 		</tbody>
 	</table>
 
-	<table class="table">
+	<table class="container" class="table" >
 		<thead>
 			<tr>
 				<th>Id</th>
@@ -84,8 +87,10 @@
 						<td>{{ operation.description }}</td>
 						{% if is_granted('ROLE_USER') %}
 							<td>
-								<a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-								<a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+						
+							<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
+							<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+								
 							</td>
 						{% endif %}
 					</tr>
