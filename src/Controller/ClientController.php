@@ -6,10 +6,11 @@ use App\Entity\Client;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @Route("/client")
@@ -81,13 +82,19 @@ class ClientController extends AbstractController
     /**
      * @Route("/{id}", name="client_delete", methods={"POST"})
      */
-    public function delete(Request $request, Client $client, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Client $client, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($client);
-            $entityManager->flush();
-        }
 
+        if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {
+            
+            $client->setFirstName(password_hash($client->getFirstName(),PASSWORD_DEFAULT));
+            $client->setLastName(password_hash($client->getLastName(),PASSWORD_DEFAULT));
+            $client->setAddress(password_hash($client->getAddress(),PASSWORD_DEFAULT));
+            // $entityManager->remove($client);
+            $entityManager->flush();
+            
+        }
         return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+        
     }
 }
