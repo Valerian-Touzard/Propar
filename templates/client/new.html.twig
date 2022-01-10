@@ -92,24 +92,34 @@
     function updateMap() {
 
         var address = $("#client_address").val();
-        let fetchRes = fetch("https://api-adresse.data.gouv.fr/search/?q="+address+"&limit=1");
+        if (address != '') {
 
-        fetchRes.then(res => res.json())
-        .then(d => {
+            let fetchRes = fetch("https://api-adresse.data.gouv.fr/search/?q="+address+"&limit=1");
 
-        // Removes previous markers
-        map.eachLayer((layer) => {
+            fetchRes.then(res => res.json())
+            .then(d => {
 
-            if (layer['_latlng'] != undefined)
+                if (d.features == "") {
+                    
+                } else {
 
-                layer.remove();
+                    // Removes previous markers
+                    map.eachLayer((layer) => {
 
-        });
+                        if (layer['_latlng'] != undefined)
 
-            new L.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;
-            map.flyTo([d.features[0].geometry.coordinates[1],d.features[0].geometry.coordinates[0]]);
+                            layer.remove();
 
-        })
+                    });
+
+                        new L.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;
+                        map.flyTo([d.features[0].geometry.coordinates[1],d.features[0].geometry.coordinates[0]]);
+
+                }
+                    
+            })
+            
+        }
 
     }
 
