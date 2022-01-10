@@ -102,10 +102,10 @@ class EmployeeController extends AbstractController
     public function delete(Request $request, Employee $employee, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->request->get('_token'))) {
-            $employee->setFirstName(password_hash($employee->getFirstName(),PASSWORD_DEFAULT));
-            $employee->setLastName(password_hash($employee->getLastName(),PASSWORD_DEFAULT));
-            $employee->setRoles(["",""]);
-            $employee->setUsername(password_hash($employee->getUserIdentifier(),PASSWORD_DEFAULT));
+            $employee->setFirstName(password_hash($employee->getFirstName(), PASSWORD_DEFAULT));
+            $employee->setLastName(password_hash($employee->getLastName(), PASSWORD_DEFAULT));
+            $employee->setRoles($tmp = []);
+            $employee->setUsername(password_hash($employee->getUserIdentifier(), PASSWORD_DEFAULT));
             // $entityManager->remove($client);
             $entityManager->flush();
         }
