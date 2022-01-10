@@ -18,26 +18,27 @@
 			<a href="../login">Se Connecter</a>
 		{% endif %}
 
-	
 
 	</div>
 
-	
-		
 
 	<h1>Liste des Opérations</h1>
 
 	<div class="menu">
 		{% if is_granted('ROLE_USER') %}
-		<a id="new" href="{{ path('operation_new') }}">Nouvelle Opération</a>
+			<a id="new" href="{{ path('operation_new') }}">Nouvelle Opération</a>
 		{% endif %}
 
 		{% if is_granted("ROLE_EXPERT") %}
-		<p id="revenue">Chiffre d'affaire: <span id="revenueNumber"> {{ revenue}} </span> €</p>
+			<p id="revenue">Chiffre d'affaire:
+				<span id="revenueNumber">
+					{{ revenue}}
+				</span>
+				€</p>
 		{% endif %}
 
 	</div>
-	
+
 
 	<h2>À Faire</h2>
 
@@ -56,7 +57,7 @@
 		</thead>
 		<tbody>
 			{% for operation in operations|sort((a, b) => a.clientId.firstName <=> b.clientId.firstName)%}
-				{% if operation.status != "done" %}
+				{% if operation.status != "done" and operation.status != "cancelled" %}
 					<tr>
 						<td>{{ operation.userId.firstName }}</td>
 						<td>{{ operation.clientId.firstName }}</td>
@@ -76,7 +77,7 @@
 						{% elseif operation.type == 'small' %}
 							<td>Petite</td>
 						{% endif %}
-						
+
 						<td>{{ operation.description }}</td>
 						{% if is_granted('ROLE_USER') %}
 							<td class="actions">
@@ -96,11 +97,12 @@
 
 	<h2>Fait</h2>
 
-	<table class="container" class="table" >
+	<table class="container" class="table">
 		<thead>
 			<tr>
 				<th>Employee</th>
 				<th>Client</th>
+				<th>Status</th>
 				<th>Type</th>
 				<th>Description</th>
 				{% if is_granted('ROLE_USER') %}
@@ -110,10 +112,17 @@
 		</thead>
 		<tbody>
 			{% for operation in operations %}
-				{% if operation.status == "done" %}
+				{% if operation.status == "done" or operation.status == "cancelled" %}
 					<tr>
 						<td>{{ operation.userId.firstName }}</td>
 						<td>{{ operation.clientId.firstName }}</td>
+
+
+						{% if operation.status == 'done' %}
+							<td>Terminé</td>
+						{% elseif operation.status == 'cancelled' %}
+							<td>Annulée</td>
+						{% endif %}
 
 						{% if operation.type == 'big' %}
 							<td>Grosse</td>
@@ -126,10 +135,10 @@
 						<td>{{ operation.description }}</td>
 						{% if is_granted('ROLE_USER') %}
 							<td class="actions">
-						
-							<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-							<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
-								
+
+								<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
+								<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+
 							</td>
 						{% endif %}
 					</tr>
@@ -141,5 +150,5 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	
+
 {% endblock %}

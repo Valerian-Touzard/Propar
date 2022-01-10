@@ -29,18 +29,20 @@ class OperationController extends AbstractController
         $tmp = $operationRepository->findAll();
         $revenue = 0;
         foreach ($tmp as $operation) {
-            switch ($operation->getType()) {
-                case ("big"):
-                    $revenue += 10000;
-                    break;
-                case ("medium"):
-                    $revenue += 2500;
-                    break;
-                case ("small"):
-                    $revenue += 1000;
-                    break;
-                default:
-                    break;
+            if ($operation->getStatus() != "cancelled") {
+                switch ($operation->getType()) {
+                    case ("big"):
+                        $revenue += 10000;
+                        break;
+                    case ("medium"):
+                        $revenue += 2500;
+                        break;
+                    case ("small"):
+                        $revenue += 1000;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         return $this->render('operation/index.html.twig', [
