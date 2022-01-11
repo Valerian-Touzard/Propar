@@ -6,12 +6,31 @@
 
 @charset "UTF-8";
 
+:root {
+
+  --primary: #F2B366 ;
+  --secondary: #66C4F2;
+  --background: #2A3640;
+
+  --read: #A69B7C;
+  --update: #D97B66;
+  --delete: #BF6060;
+
+  --text: #FFFFFF;
+  --text-hover: #F2B366 ;
+  
+  --table-primary: #435666;
+  --table-secondary: #4C6173;
+  --table-hover: #435660 ;
+  
+}
+
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: 300;
   line-height: 1.42em;
-  color: #A7A1AE;
-  background-color: #1F2739;
+  color: var(--text);
+  background-color: var(--background);
 }
 
 h1 {
@@ -19,7 +38,7 @@ h1 {
   font-weight: 300;
   line-height: 1em;
   text-align: center;
-  color: #4DC3FA;
+  color: var(--secondary);
 }
 
 h2 {
@@ -29,29 +48,7 @@ h2 {
   display: block;
   line-height: 1em;
   padding-bottom: 1em;
-  color: #FB667A;
-}
-
-h2 a {
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #FB667A;
-  text-decoration: none;
-}
-
-.blue {
-  color: #185875;
-}
-
-.yellow {
-  color: #FFF842;
-}
-
-.container th h1 {
-  font-weight: bold;
-  font-size: 1em;
-  text-align: center;
-  color: #185875;
+  color: var(--primary);
 }
 
 .container td {
@@ -80,31 +77,31 @@ h2 a {
 
 /* Background-color of the odd rows */
 .container tr:nth-child(odd) {
-  background-color: #323C50;
+  background-color: var(--table-primary);
 }
 
 /* Background-color of the even rows */
 .container tr:nth-child(even) {
-  background-color: #2C3446;
+  background-color: var(--table-secondary);
 }
 
 .container th {
-  background-color: #1F2739;
+  background-color: var(--background);
 }
 
 .container td:first-child {
 
-  color: #FB667A;
+  color: var(--primary-color);
 
 }
 
 .container tr:hover {
-  background-color: #464A52;
+  background-color: var(--table-hover);
 
 }
 
 .container td:hover {
-  color: white;
+  color: var(--text-hover);
 
 }
 
@@ -118,14 +115,14 @@ h2 a {
 
 a {
   border: solid;
-  border-color: #464A52;
+  border-color: var(--primary);
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   transition-duration: 0.4s;
   cursor: pointer;
-  color: #A7A1AE;
+  color: var(--text);
   margin: 4px 0px;
   padding: 8px 16px;
 
@@ -134,38 +131,37 @@ a {
 
 a:hover {
 
-  background-color: #464A52;
-  color: white;
+  background-color: var(--table-hover);
+  color: var(--text-hover);
 
 }
 
 .linkShow {
 
   border: solid;
-  border-color: green;
-  background-color: green;
-
+  border-color: var(--read);
+  background-color: var(--read);
 
 }
 
 .linkEdit {
 
   border: solid;
-  border-color: orange;
-  background-color: orange;
+  border-color: var(--update);
+  background-color: var(--update);
 
 }
 
 .linkShow:hover {
 
-  background-color: #464A52;
-  color: white;
+  background-color: transparent;
+  color: var(--text-hover);
 }
 
 .linkEdit:hover {
 
-  background-color: #464A52;
-  color: white;
+  background-color: transparent;
+  color: var(--text-hover);
 }
 
 .actions {
@@ -188,7 +184,7 @@ a:hover {
 
 #revenue {
 
-  color: gold;
+  color: var(--secondary);
   padding: 3px;
   border: solid 1px;
 
@@ -200,7 +196,7 @@ a:hover {
 
 #revenueNumber {
 
-  color: #FB667A;
+  color: var(--primary);
 
 }
 
