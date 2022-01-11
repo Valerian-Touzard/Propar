@@ -27,7 +27,7 @@
 }
 
 body {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'OmnibusRegular';
   font-weight: 300;
   line-height: 1.42em;
   color: var(--text);
@@ -277,6 +277,8 @@ form{
 #map a{
 
   all: unset;
+  font-size: 40px;
+  color: var(--primary);
 
 }
 
