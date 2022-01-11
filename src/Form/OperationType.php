@@ -45,6 +45,7 @@ class OperationType extends AbstractType
                 'class' => Employee::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
+                        ->where("JSON_EXTRACT( u.roles, '$[0]') != '' ")
                         ->orderBy('u.firstName', 'ASC');
                 },
                 'choice_label' => 'firstName',
@@ -53,6 +54,7 @@ class OperationType extends AbstractType
                 'class' => Client::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
+                        ->where("LENGTH(u.firstName) <= 30 and LENGTH(u.lastName) <= 30")
                         ->orderBy('u.firstName', 'ASC');
                 },
                 'choice_label' => 'firstName',
