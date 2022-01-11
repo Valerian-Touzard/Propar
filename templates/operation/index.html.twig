@@ -1,11 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Operation index
+ 
+
+{% block title %}Opération
+
 {% endblock %}
 
 {% block body %}
 
+{% if app.user %}
+	<div class="mb-3">
+		Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
+	</div>
+{% endif %}
+
 	<div class="menu">
+
+
+
+		{% if is_granted("ROLE_EXPERT") %}
+					<p id="revenue">Chiffre d'affaire:
+						<span id="revenueNumber">
+							{{ revenue}}
+						</span>
+						€</p>
+		{% endif %}
+	</div>
+	<div class="menu">
+	
 
 		{% if is_granted('ROLE_EXPERT') %}
 			<a href="../employee">Employés</a>
@@ -20,22 +42,16 @@
 
 
 	</div>
+	
 
 
-	<h1>Liste des Opérations</h1>
+	<h1>Liste Opérations</h1>
 
 	<div class="menu">
 		{% if is_granted('ROLE_USER') %}
 			<a id="new" href="{{ path('operation_new') }}">Nouvelle Opération</a>
 		{% endif %}
 
-		{% if is_granted("ROLE_EXPERT") %}
-			<p id="revenue">Chiffre d'affaire:
-				<span id="revenueNumber">
-					{{ revenue}}
-				</span>
-				€</p>
-		{% endif %}
 
 	</div>
 

@@ -1,42 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Employee{% endblock %}
+{% block title %}Employé{% endblock %}
 
 {% block body %}
-    <h1>Employee</h1>
+    <h1>Employé</h1>
 
-    <table class="table">
+    <div class="form">
+
+    <table class="container">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ employee.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
+                <th>Compte</th>
                 <td>{{ employee.username }}</td>
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ employee.roles ? employee.roles|json_encode : '' }}</td>
+					{% if employee.roles[0] == "ROLE_EXPERT" %}
+						<td>Expert</td>
+					{% elseif employee.roles[0] == "ROLE_SENIOR" %}
+						<td>Senior</td>
+					{% elseif employee.roles[0] == "ROLE_APPRENTICE" %}
+						<td>Apprenti</td>
+					{% elseif employee.roles[0] == "ROLE_USER" %}
+						<td></td>
+					{% endif %}
             </tr>
             <tr>
-                <th>Password</th>
-                <td>{{ employee.password }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
+                <th>Nom</th>
                 <td>{{ employee.lastName }}</td>
             </tr>
             <tr>
-                <th>FirstName</th>
+                <th>Prénom</th>
                 <td>{{ employee.firstName }}</td>
             </tr>
         </tbody>
     </table>
+    <div>
 
-    <a href="{{ path('employee_index') }}">back to list</a>
+    <div class="form">
 
-    <a href="{{ path('employee_edit', {'id': employee.id}) }}">edit</a>
+    <a class="linkEdit" href="{{ path('employee_edit', {'id': employee.id}) }}">Modifier</a>
 
     {{ include('employee/_delete_form.html.twig') }}
+
+    <a href="{{ path('employee_index') }}">Retour</a>
+
+    </div>
+
 {% endblock %}

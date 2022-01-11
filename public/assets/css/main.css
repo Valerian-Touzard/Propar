@@ -53,13 +53,14 @@ h2 {
 }
 
 .container td {
+  
   font-weight: normal;
   font-size: 1em;
-
 
 }
 
 .container {
+
   text-align: center;
   overflow: hidden;
   width: 80%;
@@ -193,7 +194,9 @@ button:hover {
 }
 
 #new {
+
   align-items: center;
+  
 }
 
 #revenueNumber {
@@ -207,6 +210,7 @@ td {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 20ch;
+
 }
 
 .form form{
@@ -252,6 +256,7 @@ input{
 select{
 
   background-color: var(--table-primary);
+  width: 425px;
 
 }
 
@@ -259,7 +264,6 @@ form{
 
   width: 100%;
   
-
 }
 
 #map{
@@ -267,6 +271,12 @@ form{
   width: auto; 
   height: 300px;
   margin: 2%;
+
+}
+
+#map a{
+
+  all: unset;
 
 }
 

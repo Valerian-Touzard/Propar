@@ -18,7 +18,9 @@ class EmployeeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username')
+            ->add('username', NULL, [
+                'label' => 'Compte'
+            ])
             ->add(
                 'roles',
                 ChoiceType::class,
@@ -26,15 +28,21 @@ class EmployeeType extends AbstractType
                     'choices' => array(
                         'Expert' => 'ROLE_EXPERT',
                         'Senior' => 'ROLE_SENIOR',
-                        'Apprentice' => 'ROLE_APPRENTICE',
-                    )
+                        'Apprenti' => 'ROLE_APPRENTICE',
+                    ),
+                    'label' => 'Rôle'
                 )
             )
             ->add('password', PasswordType::class, [
-                'data' => ""
+                'data' => "",
+                'label' => 'Mot de Passe'
             ])
-            ->add('lastName')
-            ->add('firstName');
+            ->add('lastName', NULL, [
+                'label' => 'Nom'
+            ])
+            ->add('firstName',NULL, [
+                'label' => 'Prénom'
+            ]);
 
         $builder->get('roles')
             ->addModelTransformer(new CallbackTransformer(

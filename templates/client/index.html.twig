@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client index
+{% block title %}Client
 {% endblock %}
 
 {% block body %}
+
+{% if app.user %}
+    <div class="mb-3">
+        Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
+    </div>
+{% endif %}
 
 	<div class="menu">
 
@@ -15,8 +21,12 @@
 		{% endif %}
 	</div>
 
-	<h1>Client index</h1>
+	<h1>Liste Clients</h1>
 
+	<div class="menu">
+		<a href="{{ path('client_new') }}">Nouveau Client</a>
+	</div>
+	
 	<table class="container">
 		<thead>
 			<tr>
@@ -45,5 +55,5 @@
 		</tbody>
 	</table>
 
-	<a href="{{ path('client_new') }}">Nouveau Client</a>
+	
 {% endblock %}

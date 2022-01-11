@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Client{% endblock %}
+{% block title %}Nouveau Client{% endblock %}
 
 {% block body %}
 
-    <h1>Création Client</h1>
+    <h1>Nouveau Client</h1>
 
     <div class="form">
 
@@ -66,7 +66,7 @@
         $.get('https://api-adresse.data.gouv.fr/search/', {
 
         q: addressInput,
-        limit: 10,
+        limit: 4,
         autocomplete: 1
 
         }, function(data) {

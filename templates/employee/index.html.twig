@@ -1,9 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Employee index
-{% endblock %}
+{% block title %}Employé{% endblock %}
 
 {% block body %}
+
+{% if app.user %}
+    <div class="mb-3">
+        Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
+    </div>
+{% endif %}
 
 	<div class="menu">
 
@@ -14,16 +19,21 @@
 			<a href="../operation">Opération</a>
 		{% endif %}
 	</div>
-	<h1>Employee index</h1>
+	<h1>Liste Employés</h1>
+
+	<dic class="form">
+
+		<a href="{{ path('employee_new') }}">Créer Employé</a>
+
+	</div>
 
 	<table class="container">
 		<thead>
 			<tr>
-				<th>Username</th>
-				<th>Roles</th>
-				<th>LastName</th>
-				<th>FirstName</th>
-				<th>actions</th>
+				<th>Compte</th>
+				<th>Rôles</th>
+				<th>Nom</th>
+				<th>Prénom</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -42,17 +52,16 @@
 					<td>{{ employee.lastName }}</td>
 					<td>{{ employee.firstName }}</td>
 					<td>
-						<a class="linkShow" href="{{ path('employee_show', {'id': employee.id}) }}">show</a>
-						<a class="linkEdit" href="{{ path('employee_edit', {'id': employee.id}) }}">edit</a>
+						<a class="linkShow" href="{{ path('employee_show', {'id': employee.id}) }}">Afficher</a>
+						<a class="linkEdit" href="{{ path('employee_edit', {'id': employee.id}) }}">Modifier</a>
 					</td>
 				</tr>
 			{% else %}
 				<tr>
-					<td colspan="5">no records found</td>
+					<td colspan="5">Aucune donnée trouvée</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 
-	<a href="{{ path('employee_new') }}">Create new</a>
 {% endblock %}

@@ -1,20 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Client{% endblock %}
+{% block title %}Modifier Client{% endblock %}
 
 {% block body %}
-    <h1>Edit Client</h1>
+    <h1>Modifier Client</h1>
 
-    {{ include('client/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="form">
 
-    <a href="{{ path('client_index') }}">back to list</a>
+        {{ include('client/_form.html.twig', {'button_label': 'Update'}) }}
 
-    {{ include('client/_delete_form.html.twig') }}
+        {{ include('client/_delete_form.html.twig') }}
 
-        <datalist id="addressList">
+        <a href="{{ path('client_index') }}">Retour</a>
+
+    </div>
+
+    <datalist id="addressList">
     </datalist>
 
-    <div id="map" style="width: 500px; height: 200px">
+    <div id="map">
     </div>
 
 
@@ -73,7 +77,7 @@
         $.get('https://api-adresse.data.gouv.fr/search/', {
 
         q: addressInput,
-        limit: 10,
+        limit: 4,
         autocomplete: 1
 
         }, function(data) {
