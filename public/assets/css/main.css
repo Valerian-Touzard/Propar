@@ -27,8 +27,9 @@
 }
 
 body {
-  font-family: 'OmnibusRegular';
-  font-weight: 300;
+  font-family: 'LatoRegular'; 
+  font-weight: normal;
+  font-style: normal; 
   line-height: 1.42em;
   color: var(--text);
   background-color: var(--background);
@@ -107,12 +108,15 @@ h2 {
 
 }
 
-/*
+
  @media (max-width: 800px) {
- .container td:nth-child(4),
- .container th:nth-child(4) { display: none; }
+  .container {
+
+    width: 100%;
+
+  }
  }
-*/
+
 
 
 a, 
@@ -328,4 +332,23 @@ form{
 
   background-color: transparent;
   
+}
+
+img{
+
+  height:auto;
+  width: 300px;
+
+}
+
+#logo{
+
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px;
+  margin: 0px;
+
 }

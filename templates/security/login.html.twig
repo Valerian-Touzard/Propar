@@ -3,6 +3,11 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+
+	<a id="logo" href="http://127.0.0.1:8000">
+		<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
+	</a> 
+
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

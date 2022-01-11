@@ -3,6 +3,17 @@
 {% block title %}Client{% endblock %}
 
 {% block body %}
+
+{% if app.user %}
+    <div class="mb-3">
+        Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
+    </div>
+{% endif %}
+
+	<a id="logo" href="http://127.0.0.1:8000">
+		<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
+	</a> 
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <h1>Client</h1>

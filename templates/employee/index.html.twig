@@ -10,6 +10,10 @@
     </div>
 {% endif %}
 
+	<a id="logo" href="http://127.0.0.1:8000">
+		<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
+	</a> 
+
 	<div class="menu">
 
 		{% if is_granted('ROLE_USER') %}
