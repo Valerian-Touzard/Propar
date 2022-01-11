@@ -14,15 +14,18 @@ class ClientType extends AbstractType
         $builder
             ->add('firstName', null, [
                 'attr' => array('maxlength' => '30'),
+                'label' => 'Prénom',
             ])
             ->add('lastName', null, [
                 'attr' => array('maxlength' => '30'),
+                'label' => 'Nom',
             ])
             ->add('address', null, [
                 'attr' => array(
                     'list' => 'addressList',
                     'autocomplete' => 'off'
                 ),
+                'label' => 'Adresse',
             ]);
     }
 

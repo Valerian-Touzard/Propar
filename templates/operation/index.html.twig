@@ -112,12 +112,13 @@
 					<td>{{ operation.userId.firstName }}</td>
 					<td>{{ operation.clientId.firstName }}</td>
 
-
 					{% if operation.status == 'done' %}
-						<td>Terminé</td>
+						<td>Terminée</td>
 					{% elseif operation.status == 'cancelled' %}
 						<td>Annulée</td>
 					{% endif %}
+
+					
 
 					{% if operation.type == 'big' %}
 						<td>Grosse</td>

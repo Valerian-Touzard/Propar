@@ -6,14 +6,12 @@
 {% block body %}
 	<h1>Operation</h1>
 
-	<table class="table">
+	<div class="form">
+
+        <table class="container">
 		<tbody>
 			<tr>
-				<th>Id</th>
-				<td>{{ operation.id }}</td>
-			</tr>
-			<tr>
-				<th>Employee</th>
+				<th>Employé</th>
 				<td>{{ operation.userId.firstName }}</td>
 			</tr>
 			<tr>
@@ -25,19 +23,40 @@
 				<td>{{ operation.description }}</td>
 			</tr>
 			<tr>
-				<th>Status</th>
-				<td>{{ operation.status }}</td>
+				<th>Statut</th>
+				{% if operation.status == 'in_progress' %}
+					<td>En Cours</td>
+				{% elseif operation.status == 'pending' %}
+					<td>En Attente</td>
+				{% elseif operation.status == 'done' %}
+					<td>Terminé</td>
+				{% elseif operation.status == 'cancelled' %}
+					<td>Annulée</td>
+				{% endif %}
 			</tr>
 			<tr>
 				<th>Type</th>
-				<td>{{ operation.type }}</td>
+				{% if operation.type == 'big' %}
+						<td>Grosse</td>
+				{% elseif operation.type == 'medium' %}
+						<td>Moyenne</td>
+				{% elseif operation.type == 'small' %}
+						<td>Petite</td>
+				{% endif %}
 			</tr>
+			
 		</tbody>
 	</table>
 
-	<a href="{{ path('operation_index') }}">back to list</a>
-
-	<a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+	<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">Modifier</a>
 
 	{{ include('operation/_delete_form.html.twig') }}
+
+	<a href="{{ path('operation_index') }}">Retour</a>
+
+    </div>
+
+	
+
+
 {% endblock %}

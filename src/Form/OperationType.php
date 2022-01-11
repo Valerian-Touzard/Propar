@@ -23,22 +23,25 @@ class OperationType extends AbstractType
                 ChoiceType::class,
                 array(
                     'choices' => array(
-                        'Pending' => 'pending',
-                        'In Progress' => 'in_progress',
-                        'Done' => 'done',
-                        'Cancelled' => 'cancelled'
-                    )
+                        'En Attente' => 'pending',
+                        'En Cours' => 'in_progress',
+                        'Terminée' => 'done',
+                        'Annulée' => 'cancelled'
+                    ),
+                    'label' => 'État',
                 )
+                
             )
             ->add(
                 'type',
                 ChoiceType::class,
                 array(
                     'choices' => array(
-                        'Small' => 'small',
-                        'Medium' => 'medium',
-                        'Big' => 'big'
-                    )
+                        'Petite (1 000€)' => 'small',
+                        'Moyenne (2 500€)' => 'medium',
+                        'Grosse (10 000€)' => 'big'
+                    ),
+                    'label' => 'Type',
                 )
             )
             ->add('userId', EntityType::class, [
@@ -49,6 +52,7 @@ class OperationType extends AbstractType
                         ->orderBy('u.firstName', 'ASC');
                 },
                 'choice_label' => 'firstName',
+                'label' => 'Employé',
             ])
             ->add('clientId', EntityType::class, [
                 'class' => Client::class,
@@ -58,6 +62,7 @@ class OperationType extends AbstractType
                         ->orderBy('u.firstName', 'ASC');
                 },
                 'choice_label' => 'firstName',
+                'label' => 'Client',
             ]);
     }
 

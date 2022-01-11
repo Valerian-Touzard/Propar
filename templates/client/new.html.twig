@@ -4,16 +4,20 @@
 
 {% block body %}
 
-    <h1>Create new Client</h1>
+    <h1>Création Client</h1>
 
-    {{ include('client/_form.html.twig') }}
+    <div class="form">
 
-    <a href="{{ path('client_index') }}">back to list</a>
+        {{ include('client/_form.html.twig') }}
 
-    <datalist id="addressList">
-    </datalist>
+        <datalist id="addressList">
+        </datalist>
 
-    <div id="map" style="width: 500px; height: 200px">
+        <a class="btn" href="{{ path('client_index') }}">Retour</a>
+
+    </div>
+
+    <div id="map" >
     </div>
 
 
