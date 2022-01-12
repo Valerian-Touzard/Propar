@@ -5,15 +5,17 @@
 
 {% block body %}
 
-{% if app.user %}
-    <div class="mb-3">
-        Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
-    </div>
-{% endif %}
+	{% if app.user %}
+		<div class="mb-3">
+			Vous êtes connecté en tant que
+			{{ app.user.username }},
+			<a href="{{ path('app_logout') }}">Se Déconnecter</a>
+		</div>
+	{% endif %}
 
 	<a id="logo" href="http://127.0.0.1:8000">
 		<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
-	</a> 
+	</a>
 
 	<div class="menu">
 
@@ -30,7 +32,13 @@
 	<div class="menu">
 		<a href="{{ path('client_new') }}">Nouveau Client</a>
 	</div>
-	
+
+	<div class="form">
+		<label for="Search">
+			Que cherchez vous?</label>
+		<input type="text" name="Search" id="SelectInput">
+	</div>
+
 	<table class="container">
 		<thead>
 			<tr>
@@ -59,5 +67,28 @@
 		</tbody>
 	</table>
 
-	
+
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script>
+		$(document).ready(function () {
+$("#SelectInput").keyup(function () {
+var rows = document.getElementsByTagName("tr");
+var input = document.getElementById("SelectInput").value.toString().toUpperCase();
+
+for (var i = 0; i < rows.length; i++) {
+var column = rows[i].getElementsByTagName("td");
+var filter = "";
+for (var j = 0; j < column.length - 1; j++) {
+filter = filter + column[j].innerHTML.toString().toUpperCase() + " ";
+}
+if (filter.indexOf(input) > -1) {
+rows[i].style.display = "";
+} else {
+rows[i].style.display = "none";
+}
+}
+})
+
+});
+	</script>
 {% endblock %}
