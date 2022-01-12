@@ -4,42 +4,42 @@
 {% endblock %}
 
 {% block body %}
-	{% if app.user %}
-		<div class="mb-3">
-			Vous êtes connecté en tant que
-			{{ app.user.username }},
-			<a href="{{ path('app_logout') }}">Se Déconnecter</a>
-		</div>
-	{% endif %}
-
-	<a id="logo" href="http://127.0.0.1:8000">
-		<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
-	</a>
-
-	<h1>Nouveau Client</h1>
-
-	<div class="form">
-
-		{{ include('client/_form.html.twig') }}
-
-		<datalist id="addressList"></datalist>
-
-		<a class="btn" href="{{ path('client_index') }}">Retour</a>
-
+{% if app.user %}
+	<div class="mb-3">
+		Vous êtes connecté en tant que
+		{{ app.user.username }},
+		<a href="{{ path('app_logout') }}">Se Déconnecter</a>
 	</div>
+{% endif %}
 
-	<div id="map"></div>
+<a id="logo" href="http://127.0.0.1:8000">
+	<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
+</a>
+
+<h1>Nouveau Client</h1>
+
+<div class="form">
+
+	{{ include('client/_form.html.twig') }}
+
+	<datalist id="addressList"></datalist>
+
+	<a class="btn" href="{{ path('client_index') }}">Retour</a>
+
+</div>
+
+<div id="map"></div>
 
 
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-	<script>
+<script>
 
-		// Instantiate map
+	// Instantiate map
 var map = L.map('map').setView([
 0, 0
 ], 16);
@@ -90,59 +90,9 @@ list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " +
 
 });
 
-$('#addressList').html(list);
+$('#addressList').html(list); <<<<<<<HEAD},'json');=======document.getElementById("client_address").addEventListener("change",function(){clearTimeout(timeoutChange);timeoutChange=setTimeout(updateMap,300);});document.getElementById("client_address").addEventListener("input",function(){clearTimeout(timeoutInput);timeoutInput=setTimeout(updateMap,300);});>>>>>>>191de87fdeff62766866acfb495ba02fa868ffc3document.getElementById("client_address").addEventListener("change",function(){clearTimeout(timeoutChange);timeoutChange=setTimeout(updateMap,300);});document.getElementById("client_address").addEventListener("input",function(){clearTimeout(timeoutInput);timeoutInput=setTimeout(updateMap,300);});},300);});//Updatesmap(makesapirequest,clearsmarkers,addsnewmarker,flytomarker)functionupdateMap(){varaddress=$("#client_address").val();if(address!=''){letfetchRes=fetch("https://api-adresse.data.gouv.fr/search/?q="+address+"&limit=1");fetchRes.then(res=>res.json()).then(d=>{if(d.features==""){}else{//Removespreviousmarkersmap.eachLayer((layer)=>{if(layer['_latlng']!=undefined)layer.remove();});newL.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;map.flyTo([d.features[0].geometry.coordinates[1],d.features[0].geometry.coordinates[0]]);}})}}
+			</script>
 
-
-}, 'json');
-
-document.getElementById("client_address").addEventListener("change", function () {
-clearTimeout(timeoutChange);
-timeoutChange = setTimeout(updateMap, 300);
-});
-document.getElementById("client_address").addEventListener("input", function () {
-clearTimeout(timeoutInput);
-timeoutInput = setTimeout(updateMap, 300);
-});
-
-}, 300);
-
-});
-
-
-// Updates map (makes api request, clears markers, adds new marker, fly to marker)
-function updateMap() {
-
-var address = $("#client_address").val();
-if (address != '') {
-
-let fetchRes = fetch("https://api-adresse.data.gouv.fr/search/?q=" + address + "&limit=1");
-
-fetchRes.then(res => res.json()).then(d => {
-
-if (d.features == "") {} else { // Removes previous markers
-map.eachLayer((layer) => {
-
-if (layer['_latlng'] != undefined) 
-
-layer.remove();
-
-
-
-});
-
-new L.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;
-map.flyTo([
-d.features[0].geometry.coordinates[1],
-d.features[0].geometry.coordinates[0]
-]);
-
-}
-
-})
-
-}
-
-}
-	</script>
-
-{% endblock %}
+			{
+			% endblock %
+		}
