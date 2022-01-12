@@ -25,7 +25,7 @@
 		{{ include('operation/_form.html.twig') }}
 
 		{% if error %}
-			<div class="alert alert-danger">Cet Employé ne peut pas prendre d'opération supplémentaire</div>
+			<div class="alert alert-danger">{{error}}</div>
 		{% endif %}
 
 		<a class="btn" href="{{ path('operation_index') }}">Retour</a>

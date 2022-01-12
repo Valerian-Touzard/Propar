@@ -105,7 +105,7 @@ class OperationController extends AbstractController
                 return $this->renderForm('operation/new.html.twig', [
                     'operation' => $operation,
                     'form' => $form,
-                    'error' => "error",
+                    'error' => "Cet Employé a déjà son nombre maximal d'opération (" . count($nbOperation) . ")",
                 ]);
             }
         }
@@ -180,7 +180,7 @@ class OperationController extends AbstractController
                 return $this->renderForm('operation/edit.html.twig', [
                     'operation' => $operation,
                     'form' => $form,
-                    'error' => 'error',
+                    'error' => "Cet Employé a déjà son nombre maximal d'opération (" . count($nbOperation) . ")",
                 ]);
             }
         }
