@@ -59,6 +59,8 @@
         })
 
     var fetchTrigger = 0;
+    var timeoutChange = 0;
+    var timeoutInput = 0;
 
     // Checks keyboard inputs
     $("#client_address").keyup(function(event) {
@@ -86,22 +88,22 @@
         // https://api-adresse.data.gouv.fr/search/?q=addressInput&limit=10&autocomplete=1
         $.get('https://api-adresse.data.gouv.fr/search/', {
 
-        q: addressInput,
-        limit: 4,
-        autocomplete: 1
+            q: addressInput,
+            limit: 4,
+            autocomplete: 1
 
         }, function(data) {
 
-        let list = "";
+            let list = "";
 
-        // Adds each address as an option
-        $.each(data.features, function(i, obj) {
+            // Adds each address as an option
+            $.each(data.features, function(i, obj) {
 
-            list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " + obj.properties.city + '</option>';
+                list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " + obj.properties.city + '</option>';
 
-        });
+            });
 
-        $('#addressList').html(list);
+            $('#addressList').html(list);
 
         }, 'json');
 
@@ -116,6 +118,8 @@
 
         clearTimeout(timeoutInput);
         timeoutInput = setTimeout(updateMap, 300);
+
+        });
 
     }, 300);
 
