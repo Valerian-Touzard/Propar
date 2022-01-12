@@ -32,7 +32,8 @@ class SecurityController extends AbstractController
 
         //On compte le nombre d'opération affecter a l'employé utilisé
         $nbEmployee = $qb->select('employee')
-            ->from('App\Entity\Employee', 'employee');
+            ->from('App\Entity\Employee', 'employee')
+            ->where("JSON_EXTRACT( employee.roles, '$[0]') != '' ");
 
         $nbEmployee = $qb->getQuery()->getResult();
 

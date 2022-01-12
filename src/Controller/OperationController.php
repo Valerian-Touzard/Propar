@@ -62,6 +62,13 @@ class OperationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!($operation->getClientId())) {
+                return $this->renderForm('operation/new.html.twig', [
+                    'operation' => $operation,
+                    'form' => $form,
+                    'error' => "Le Client est obligatoire pour créer une Opération",
+                ]);
+            }
 
             //Création d'une instance QueryBuilder
             $qb = $entityManager->createQueryBuilder();
@@ -137,6 +144,14 @@ class OperationController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if (!($operation->getClientId())) {
+                return $this->renderForm('operation/new.html.twig', [
+                    'operation' => $operation,
+                    'form' => $form,
+                    'error' => "Le Client est obligatoire pour créer une Opération",
+                ]);
+            }
 
             $estReussi = false;
 
