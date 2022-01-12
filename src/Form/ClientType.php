@@ -23,7 +23,8 @@ class ClientType extends AbstractType
             ->add('address', null, [
                 'attr' => array(
                     'list' => 'addressList',
-                    'autocomplete' => 'off'
+                    'autocomplete' => 'off',
+                    'maxlength' => '250'
                 ),
                 'label' => 'Adresse',
             ]);
