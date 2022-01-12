@@ -64,6 +64,56 @@
 		<input type="text" name="Search" id="SelectInput">
 	</div>
 
+	{% if is_granted('ROLE_USER') %}
+		<h2>Mes Opérations</h2>
+
+		<table class="container" class="table">
+			<thead>
+				<tr>
+					<th>Employé</th>
+					<th>Client</th>
+					<th>Statut</th>
+					<th>Type</th>
+					<th>Description</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for operation in operations|sort((a, b) => a.clientId.firstName <=> b.clientId.firstName) |filter(operation => operation.status != "done" and operation.status != "cancelled" and operation.userId == app.user ) %}
+					<tr>
+						<td>{{ operation.userId.firstName }}</td>
+						<td>{{ operation.clientId.firstName }}</td>
+
+						{% if operation.status == 'in_progress' %}
+							<td>En Cours</td>
+						{% elseif operation.status == 'pending' %}
+							<td>En Attente</td>
+						{% endif %}
+
+						{% if operation.type == 'big' %}
+							<td>Grosse</td>
+						{% elseif operation.type == 'medium' %}
+							<td>Moyenne</td>
+						{% elseif operation.type == 'small' %}
+							<td>Petite</td>
+						{% endif %}
+
+						<td>{{ operation.description }}</td>
+						{% if is_granted('ROLE_USER') %}
+							<td class="actions">
+								<a class="linkShow" href="{{ path('operation_show', {'id': operation.id}) }}">Afficher</a>
+								<a class="linkEdit" href="{{ path('operation_edit', {'id': operation.id}) }}">Modifier</a>
+							</td>
+						{% endif %}
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">Aucune Donnée Trouvée</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
 
 	<h2>À Faire</h2>
 
