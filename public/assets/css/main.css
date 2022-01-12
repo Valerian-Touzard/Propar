@@ -10,7 +10,7 @@
 
 :root {
 
-  --primary: #F2B366 ;
+  --primary: #F2B366;
   --secondary: #66C4F2;
   --background: #2A3640;
 
@@ -20,18 +20,18 @@
   --delete: #BF6060;
 
   --text: #FFFFFF;
-  --text-hover: #F2B366 ;
-  
+  --text-hover: #F2B366;
+
   --table-primary: #435666;
   --table-secondary: #4C6173;
-  --table-hover: #435660 ;
-  
+  --table-hover: #435660;
+
 }
 
 body {
-  font-family: 'LatoRegular'; 
+  font-family: 'LatoRegular';
   font-weight: normal;
-  font-style: normal; 
+  font-style: normal;
   line-height: 1.42em;
   color: var(--text);
   background-color: var(--background);
@@ -56,7 +56,7 @@ h2 {
 }
 
 .container td {
-  
+
   font-weight: normal;
   font-size: 1em;
 
@@ -111,17 +111,17 @@ h2 {
 }
 
 
- @media (max-width: 1300px) {
+@media (max-width: 1300px) {
   .container {
 
     width: 100%;
 
   }
- }
+}
 
 
 
-a, 
+a,
 button {
   border: solid;
   border-color: var(--primary);
@@ -202,7 +202,7 @@ button:hover {
 #new {
 
   align-items: center;
-  
+
 }
 
 #revenueNumber {
@@ -219,7 +219,7 @@ td {
 
 }
 
-.form form{
+.form form {
 
   max-width: 100%;
   display: flex;
@@ -229,7 +229,11 @@ td {
 
 }
 
-#client, #operation, #employee{
+
+#client,
+#operation,
+#employee,
+#register {
 
   background-color: var(--table-secondary);
   padding: 25px 10px;
@@ -237,15 +241,22 @@ td {
 
 }
 
-#client label, #employee label, #operation label{
-
-  display:block;
-  width: 80px;
-  color: var(--text)
-
+#register {
+  padding: 25px 10px;
+  border-radius: 5px;
+  width: 500px;
+  margin: auto;
 }
 
-input, select{
+form label {
+
+  display: block;
+  width: 80px;
+  color: var(--text)
+}
+
+input,
+select {
 
   width: 400px;
   padding: 10px;
@@ -253,40 +264,40 @@ input, select{
 
 }
 
-input{
+input {
 
   background-color: var(--table-hover);
 
 }
 
-select{
+select {
 
   background-color: var(--table-primary);
   width: 425px;
 
 }
 
-form{
+form {
 
   width: 100%;
-  
+
 }
 
-#map{
+#map {
 
-  width: auto; 
+  width: auto;
   height: 300px;
   margin: 2%;
 
 }
 
-#map a{
+#map a {
 
   all: unset;
 
 }
 
-.form{
+.form {
 
   display: flex;
   align-items: center;
@@ -294,54 +305,54 @@ form{
   margin: 2%;
   max-width: auto;
   flex-direction: column;
-  
+
 }
 
-.btn{
+.btn {
 
   display: flex;
   margin: 10px auto;
 
 }
 
-#addressList{
+#addressList {
 
   background-color: red;
   color: red;
 }
 
-.delete{
+.delete {
 
   background-color: var(--delete);
 
 }
 
-.delete:hover{
+.delete:hover {
 
   background-color: transparent;
-  
+
 }
 
-.new{
+.new {
 
   background-color: var(--new);
 
 }
 
-.new:hover{
+.new:hover {
 
   background-color: transparent;
-  
+
 }
 
-img{
+img {
 
-  height:auto;
+  height: auto;
   width: 300px;
 
 }
 
-#logo{
+#logo {
 
   all: unset;
   cursor: pointer;
