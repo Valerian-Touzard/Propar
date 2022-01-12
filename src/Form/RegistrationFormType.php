@@ -27,8 +27,6 @@ class RegistrationFormType extends AbstractType
                 array(
                     'choices' => array(
                         'Expert' => 'ROLE_EXPERT',
-                        'Senior' => 'ROLE_SENIOR',
-                        'Apprentice' => 'ROLE_APPRENTICE',
                     )
                 )
             )

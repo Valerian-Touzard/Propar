@@ -20,6 +20,20 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppCustomAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+        $qb = $entityManager->createQueryBuilder();
+
+        //Permet de récuperer les info de la classe en cour et son "image" dans la BDD
+        $entityManager = $qb->getEntityManager();
+
+        //On compte le nombre d'opération affecter a l'employé utilisé
+        $nbEmployee = $qb->select('employee')
+            ->from('App\Entity\Employee', 'employee');
+
+        $nbEmployee = $qb->getQuery()->getResult();
+        if (count($nbEmployee) > 0) {
+            return $this->redirectToRoute('operation_index');
+        }
+
         $user = new Employee();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -27,7 +41,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
-            $userPasswordHasher->hashPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
