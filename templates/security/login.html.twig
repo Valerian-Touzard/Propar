@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se Connecter{% endblock %}
 
 {% block body %}
 
@@ -8,10 +8,7 @@
 		<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
 	</a> 
 
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+<form method="post" class="form">
 
     <div class="form">
         <h1 class="h3 mb-3 font-weight-normal">Veuillez Vous Connecter</h1>
@@ -37,6 +34,10 @@
             </label>
         </div>
     #}
+
+    {% if error %}
+        <div class="alert alert-danger">Erreur lors de la connexion</div>
+    {% endif %}
 
     <button class="btn btn-lg btn-primary" type="submit">
         Se Connecter
