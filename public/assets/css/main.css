@@ -109,7 +109,7 @@ h2 {
 }
 
 
- @media (max-width: 800px) {
+ @media (max-width: 1300px) {
   .container {
 
     width: 100%;
@@ -281,8 +281,6 @@ form{
 #map a{
 
   all: unset;
-  font-size: 40px;
-  color: var(--primary);
 
 }
 
