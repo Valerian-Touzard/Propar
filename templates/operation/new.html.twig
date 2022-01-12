@@ -1,29 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle Opération{% endblock %}
+{% block title %}Nouvelle Opération
+{% endblock %}
 
 {% block body %}
 
-{% if app.user %}
-    <div class="mb-3">
-        Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
-    </div>
-{% endif %}
+
+	{% if app.user %}
+		<div class="mb-3">
+			Vous êtes connecté en tant que
+			{{ app.user.username }},
+			<a href="{{ path('app_logout') }}">Se Déconnecter</a>
+		</div>
+	{% endif %}
 
 	<a id="logo" href="http://127.0.0.1:8000">
 		<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
-	</a> 
-    
-    <h1>Nouvelle Opération</h1>
+	</a>
 
-    <div class="form">
+	<h1>Nouvelle Opération</h1>
 
-        {{ include('operation/_form.html.twig') }}
+	<div class="form">
 
-       <a class="btn" href="{{ path('operation_index') }}">Retour</a>
+		{{ include('operation/_form.html.twig') }}
 
-    </div>
+		{% if error %}
+			<div class="alert alert-danger">Cet Employé ne peut pas prendre d'opération supplémentaire</div>
+		{% endif %}
+
+		<a class="btn" href="{{ path('operation_index') }}">Retour</a>
+
+	</div>
 
 
-    
 {% endblock %}

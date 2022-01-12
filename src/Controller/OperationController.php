@@ -102,13 +102,18 @@ class OperationController extends AbstractController
                 $entityManager->flush();
                 return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
             } else {
-                return $this->redirectToRoute('operation_new', [], Response::HTTP_SEE_OTHER);
+                return $this->renderForm('operation/new.html.twig', [
+                    'operation' => $operation,
+                    'form' => $form,
+                    'error' => "error",
+                ]);
             }
         }
 
         return $this->renderForm('operation/new.html.twig', [
             'operation' => $operation,
             'form' => $form,
+            'error' => "",
         ]);
     }
 
@@ -130,15 +135,60 @@ class OperationController extends AbstractController
         $form = $this->createForm(OperationType::class, $operation);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
 
-            return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $estReussi = false;
+
+            $qb = $entityManager->createQueryBuilder();
+
+            //Permet de récuperer les info de la classe en cour et son "image" dans la BDD
+            $entityManager = $qb->getEntityManager();
+
+            //On compte le nombre d'opération affecter a l'employé utilisé
+            $nbOperation = $qb->select('operation')
+                ->from('App\Entity\Operation', 'operation')
+                ->where('operation.userId = ?1')
+                ->setParameter(1, $operation->getUserId()->getId());
+
+            $nbOperation = $qb->getQuery()->getResult();
+
+            // dd(count($nbOperation));
+            // dd($operation->getUserId()->getRoles()[0]);
+            switch ($operation->getUserId()->getRoles()[0]) {
+                case 'ROLE_EXPERT':
+                    if (count($nbOperation) < 5) {
+                        $estReussi = true;
+                    }
+                    break;
+                case 'ROLE_SENIOR':
+                    if (count($nbOperation) < 3) {
+                        $estReussi = true;
+                    }
+                    break;
+                case 'ROLE_APPRENTICE':
+                    if (count($nbOperation) < 1) {
+                        $estReussi = true;
+                    }
+                    break;
+            }
+
+            if ($estReussi) {
+                $entityManager->flush();
+                return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+            } else {
+                return $this->renderForm('operation/edit.html.twig', [
+                    'operation' => $operation,
+                    'form' => $form,
+                    'error' => 'error',
+                ]);
+            }
         }
 
         return $this->renderForm('operation/edit.html.twig', [
             'operation' => $operation,
             'form' => $form,
+            'error' => '',
         ]);
     }
 
