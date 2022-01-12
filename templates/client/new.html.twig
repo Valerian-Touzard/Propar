@@ -47,6 +47,8 @@
     }).addTo( map );
 
     var fetchTrigger = 0;
+    var timeoutChange = 0;
+    var timeoutInput = 0;
 
     // Checks keyboard inputs
     $("#client_address").keyup(function(event) {
@@ -93,8 +95,19 @@
 
         }, 'json');
 
-        document.getElementById("client_address").addEventListener("change", updateMap);
-        document.getElementById("client_address").addEventListener("input", updateMap);
+        document.getElementById("client_address").addEventListener("change", function () {
+
+        clearTimeout(timeoutChange);
+        timeoutChange = setTimeout(updateMap, 300);
+
+        });
+
+        document.getElementById("client_address").addEventListener("input", function () {
+
+        clearTimeout(timeoutInput);
+        timeoutInput = setTimeout(updateMap, 300);
+
+        });
 
     }, 300);
 
