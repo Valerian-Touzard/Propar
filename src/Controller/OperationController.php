@@ -79,11 +79,15 @@ class OperationController extends AbstractController
             //On compte le nombre d'opération affecter a l'employé utilisé
             $nbOperation = $qb->select('operation')
                 ->from('App\Entity\Operation', 'operation')
-                ->where('operation.userId = ?1')
-                ->setParameter(1, $operation->getUserId()->getId());
+                ->where('operation.userId = ?1 and operation.status != ?2 and operation.status != ?3')
+                ->setParameter(1, $operation->getUserId()->getId())
+                ->setParameter(2, "done")
+                ->setParameter(3, "cancelled");
 
             $nbOperation = $qb->getQuery()->getResult();
-
+            if ($operation->getStatus() == "done" || $operation->getStatus() == "cancelled") {
+                $estReussi = true;
+            }
             // dd(count($nbOperation));
             // dd($operation->getUserId()->getRoles()[0]);
             switch ($operation->getUserId()->getRoles()[0]) {
@@ -163,10 +167,16 @@ class OperationController extends AbstractController
             //On compte le nombre d'opération affecter a l'employé utilisé
             $nbOperation = $qb->select('operation')
                 ->from('App\Entity\Operation', 'operation')
-                ->where('operation.userId = ?1')
-                ->setParameter(1, $operation->getUserId()->getId());
+                ->where('operation.userId = ?1 and operation.status != ?2 and operation.status != ?3')
+                ->setParameter(1, $operation->getUserId()->getId())
+                ->setParameter(2, "done")
+                ->setParameter(3, "cancelled");
 
             $nbOperation = $qb->getQuery()->getResult();
+
+            if ($operation->getStatus() == "done" || $operation->getStatus() == "cancelled") {
+                $estReussi = true;
+            }
 
             // dd(count($nbOperation));
             // dd($operation->getUserId()->getRoles()[0]);

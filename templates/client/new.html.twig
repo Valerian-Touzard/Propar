@@ -1,144 +1,148 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau Client{% endblock %}
+{% block title %}Nouveau Client
+{% endblock %}
 
 {% block body %}
-{% if app.user %}
-    <div class="mb-3">
-        Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se Déconnecter</a>
-    </div>
-{% endif %}
+	{% if app.user %}
+		<div class="mb-3">
+			Vous êtes connecté en tant que
+			{{ app.user.username }},
+			<a href="{{ path('app_logout') }}">Se Déconnecter</a>
+		</div>
+	{% endif %}
 
 	<a id="logo" href="http://127.0.0.1:8000">
 		<img src="{{ asset('assets/images/propar.png') }}" alt="Propar">
-	</a> 
+	</a>
 
-    <h1>Nouveau Client</h1>
+	<h1>Nouveau Client</h1>
 
-    <div class="form">
+	<div class="form">
 
-        {{ include('client/_form.html.twig') }}
+		{{ include('client/_form.html.twig') }}
 
-        <datalist id="addressList">
-        </datalist>
+		<datalist id="addressList"></datalist>
 
-        <a class="btn" href="{{ path('client_index') }}">Retour</a>
+		<a class="btn" href="{{ path('client_index') }}">Retour</a>
 
-    </div>
+	</div>
 
-    <div id="map" >
-    </div>
+	<div id="map"></div>
 
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    <script>
+	<script>
 
-    //Instantiate map
-    var map = L.map('map').setView([0,0], 16);
+		// Instantiate map
+var map = L.map('map').setView([
+0, 0
+], 16);
 
-    L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        subdomains: ['a','b','c']
-    }).addTo( map );
+L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+subdomains: ['a', 'b', 'c']
+}).addTo(map);
 
-    var fetchTrigger = 0;
+var fetchTrigger = 0;
+var timeoutChange = 0;
+var timeoutInput = 0;
 
-    // Checks keyboard inputs
-    $("#client_address").keyup(function(event) {
-    
-    // Stops default propagation
-    event.preventDefault();
-    event.stopPropagation();
+// Checks keyboard inputs
+$("#client_address").keyup(function (event) { // Stops default propagation
+event.preventDefault();
+event.stopPropagation();
 
-    // Stops previous request
-    clearTimeout(fetchTrigger);
+// Stops previous request
+clearTimeout(fetchTrigger);
 
-    let addressInput = $("#client_address").val();
+let addressInput = $("#client_address").val();
 
-    // Empties the drop down list if input is empty, and stops the function
-    if (addressInput.length === 0) {
+// Empties the drop down list if input is empty, and stops the function
+if (addressInput.length === 0) {
 
-        $('#addressList').empty();
-        return false;
+$('#addressList').empty();
+return false;
 
-    }
+}
 
-    // Wait inactivity before sending the request
-    fetchTrigger = setTimeout(function() {
-        
-        // https://api-adresse.data.gouv.fr/search/?q=addressInput&limit=10&autocomplete=1
-        $.get('https://api-adresse.data.gouv.fr/search/', {
+// Wait inactivity before sending the request
+fetchTrigger = setTimeout(function () { // https://api-adresse.data.gouv.fr/search/?q=addressInput&limit=10&autocomplete=1
+$.get('https://api-adresse.data.gouv.fr/search/', {
 
-        q: addressInput,
-        limit: 4,
-        autocomplete: 1
+q: addressInput,
+limit: 4,
+autocomplete: 1
 
-        }, function(data) {
+}, function (data) {
 
-        let list = "";
+let list = "";
 
-        // Adds each address as an option
-        $.each(data.features, function(i, obj) {
+// Adds each address as an option
+$.each(data.features, function (i, obj) {
 
-            list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " + obj.properties.city + '</option>';
+list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " + obj.properties.city + '</option>';
 
-        });
+});
 
-        $('#addressList').html(list);
+$('#addressList').html(list);
 
-        }, 'json');
 
-        document.getElementById("client_address").addEventListener("change", updateMap);
-        document.getElementById("client_address").addEventListener("input", updateMap);
+}, 'json');
 
-    }, 300);
+document.getElementById("client_address").addEventListener("change", function () {
+clearTimeout(timeoutChange);
+timeoutChange = setTimeout(updateMap, 300);
+});
+document.getElementById("client_address").addEventListener("input", function () {
+clearTimeout(timeoutInput);
+timeoutInput = setTimeout(updateMap, 300);
+});
 
-    });
+}, 300);
 
-    
-    // Updates map (makes api request, clears markers, adds new marker, fly to marker)
-    function updateMap() {
+});
 
-        var address = $("#client_address").val();
-        if (address != '') {
 
-            let fetchRes = fetch("https://api-adresse.data.gouv.fr/search/?q="+address+"&limit=1");
+// Updates map (makes api request, clears markers, adds new marker, fly to marker)
+function updateMap() {
 
-            fetchRes.then(res => res.json())
-            .then(d => {
+var address = $("#client_address").val();
+if (address != '') {
 
-                if (d.features == "") {
-                    
-                } else {
+let fetchRes = fetch("https://api-adresse.data.gouv.fr/search/?q=" + address + "&limit=1");
 
-                    // Removes previous markers
-                    map.eachLayer((layer) => {
+fetchRes.then(res => res.json()).then(d => {
 
-                        if (layer['_latlng'] != undefined)
+if (d.features == "") {} else { // Removes previous markers
+map.eachLayer((layer) => {
 
-                            layer.remove();
+if (layer['_latlng'] != undefined) 
 
-                    });
-
-                        new L.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;
-                        map.flyTo([d.features[0].geometry.coordinates[1],d.features[0].geometry.coordinates[0]]);
-
-                }
-                    
-            })
-            
-        }
-
-    }
+layer.remove();
 
 
 
-    </script>
+});
+
+new L.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;
+map.flyTo([
+d.features[0].geometry.coordinates[1],
+d.features[0].geometry.coordinates[0]
+]);
+
+}
+
+})
+
+}
+
+}
+	</script>
 
 {% endblock %}
-
