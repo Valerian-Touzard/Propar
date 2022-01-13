@@ -93,6 +93,4 @@ list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " +
 $('#addressList').html(list); <<<<<<<HEAD},'json');=======document.getElementById("client_address").addEventListener("change",function(){clearTimeout(timeoutChange);timeoutChange=setTimeout(updateMap,300);});document.getElementById("client_address").addEventListener("input",function(){clearTimeout(timeoutInput);timeoutInput=setTimeout(updateMap,300);});>>>>>>>191de87fdeff62766866acfb495ba02fa868ffc3document.getElementById("client_address").addEventListener("change",function(){clearTimeout(timeoutChange);timeoutChange=setTimeout(updateMap,300);});document.getElementById("client_address").addEventListener("input",function(){clearTimeout(timeoutInput);timeoutInput=setTimeout(updateMap,300);});},300);});//Updatesmap(makesapirequest,clearsmarkers,addsnewmarker,flytomarker)functionupdateMap(){varaddress=$("#client_address").val();if(address!=''){letfetchRes=fetch("https://api-adresse.data.gouv.fr/search/?q="+address+"&limit=1");fetchRes.then(res=>res.json()).then(d=>{if(d.features==""){}else{//Removespreviousmarkersmap.eachLayer((layer)=>{if(layer['_latlng']!=undefined)layer.remove();});newL.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;map.flyTo([d.features[0].geometry.coordinates[1],d.features[0].geometry.coordinates[0]]);}})}}
 			</script>
 
-			{
-			% endblock %
-		}
+{% endblock %}
