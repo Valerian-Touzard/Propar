@@ -28,69 +28,143 @@
 
 </div>
 
-<div id="map"></div>
+<datalist id="addressList">
+    </datalist>
+
+    <div id="map">
+    </div>
 
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-<script>
+    <script>
 
-	// Instantiate map
-var map = L.map('map').setView([
-0, 0
-], 16);
+    //Instantiate map
+    var map = L.map('map').setView([0,0], 16);
 
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-subdomains: ['a', 'b', 'c']
-}).addTo(map);
+    L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: ['a','b','c']
+    }).addTo( map );
 
-var fetchTrigger = 0;
-var timeoutChange = 0;
-var timeoutInput = 0;
+    let fetchRes = fetch("https://api-adresse.data.gouv.fr/search/?q="+ $("#client_address").val());
 
-// Checks keyboard inputs
-$("#client_address").keyup(function (event) { // Stops default propagation
-event.preventDefault();
-event.stopPropagation();
+    fetchRes.then(res => res.json())
+        .then(d => {
+            
+            new L.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;
+            map.flyTo([d.features[0].geometry.coordinates[1],d.features[0].geometry.coordinates[0]]);
+            
+        })
 
-// Stops previous request
-clearTimeout(fetchTrigger);
+    var fetchTrigger = 0;
+    var timeoutChange = 0;
+    var timeoutInput = 0;
 
-let addressInput = $("#client_address").val();
+    // Checks keyboard inputs
+    $("#client_address").keyup(function(event) {
+    
+    // Stops default propagation
+    event.preventDefault();
+    event.stopPropagation();
 
-// Empties the drop down list if input is empty, and stops the function
-if (addressInput.length === 0) {
+    // Stops previous request
+    clearTimeout(fetchTrigger);
 
-$('#addressList').empty();
-return false;
+    let addressInput = $("#client_address").val();
 
-}
+    // Empties the drop down list if input is empty, and stops the function
+    if (addressInput.length === 0) {
 
-// Wait inactivity before sending the request
-fetchTrigger = setTimeout(function () { // https://api-adresse.data.gouv.fr/search/?q=addressInput&limit=10&autocomplete=1
-$.get('https://api-adresse.data.gouv.fr/search/', {
+        $('#addressList').empty();
+        return false;
 
-q: addressInput,
-limit: 4,
-autocomplete: 1
+    }
 
-}, function (data) {
+    // Wait inactivity before sending the request
+    fetchTrigger = setTimeout(function() {
+        
+        // https://api-adresse.data.gouv.fr/search/?q=addressInput&limit=10&autocomplete=1
+        $.get('https://api-adresse.data.gouv.fr/search/', {
 
-let list = "";
+            q: addressInput,
+            limit: 4,
+            autocomplete: 1
 
-// Adds each address as an option
-$.each(data.features, function (i, obj) {
+        }, function(data) {
 
-list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " + obj.properties.city + '</option>';
+            let list = "";
 
-});
+            // Adds each address as an option
+            $.each(data.features, function(i, obj) {
 
-$('#addressList').html(list); <<<<<<<HEAD},'json');=======document.getElementById("client_address").addEventListener("change",function(){clearTimeout(timeoutChange);timeoutChange=setTimeout(updateMap,300);});document.getElementById("client_address").addEventListener("input",function(){clearTimeout(timeoutInput);timeoutInput=setTimeout(updateMap,300);});>>>>>>>191de87fdeff62766866acfb495ba02fa868ffc3document.getElementById("client_address").addEventListener("change",function(){clearTimeout(timeoutChange);timeoutChange=setTimeout(updateMap,300);});document.getElementById("client_address").addEventListener("input",function(){clearTimeout(timeoutInput);timeoutInput=setTimeout(updateMap,300);});},300);});//Updatesmap(makesapirequest,clearsmarkers,addsnewmarker,flytomarker)functionupdateMap(){varaddress=$("#client_address").val();if(address!=''){letfetchRes=fetch("https://api-adresse.data.gouv.fr/search/?q="+address+"&limit=1");fetchRes.then(res=>res.json()).then(d=>{if(d.features==""){}else{//Removespreviousmarkersmap.eachLayer((layer)=>{if(layer['_latlng']!=undefined)layer.remove();});newL.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;map.flyTo([d.features[0].geometry.coordinates[1],d.features[0].geometry.coordinates[0]]);}})}}
-			</script>
+                list += '<option>' + obj.properties.name + " " + obj.properties.postcode + " " + obj.properties.city + '</option>';
 
+            });
+
+            $('#addressList').html(list);
+
+        }, 'json');
+
+        document.getElementById("client_address").addEventListener("change", function () {
+
+        clearTimeout(timeoutChange);
+        timeoutChange = setTimeout(updateMap, 300);
+
+        });
+
+        document.getElementById("client_address").addEventListener("input", function () {
+
+        clearTimeout(timeoutInput);
+        timeoutInput = setTimeout(updateMap, 300);
+
+        });
+
+    }, 300);
+
+    });
+
+    
+    // Updates map (makes api request, clears markers, adds new marker, fly to marker)
+    function updateMap() {
+
+        var address = $("#client_address").val();
+        if (address != '') {
+
+            let fetchRes = fetch("https://api-adresse.data.gouv.fr/search/?q="+address+"&limit=1");
+
+            fetchRes.then(res => res.json())
+            .then(d => {
+
+                if (d.features == "") {
+                    
+                } else {
+
+                    // Removes previous markers
+                    map.eachLayer((layer) => {
+
+                        if (layer['_latlng'] != undefined)
+
+                            layer.remove();
+
+                    });
+
+                        new L.GeoJSON(d.features[0]).addTo(map).bindPopup($("#client_address").val()).openPopup();;
+                        map.flyTo([d.features[0].geometry.coordinates[1],d.features[0].geometry.coordinates[0]]);
+
+                }
+                    
+            })
+            
+        }
+
+    }
+
+
+
+    </script>
 {% endblock %}
